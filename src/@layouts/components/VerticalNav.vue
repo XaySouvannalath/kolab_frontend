@@ -1,14 +1,16 @@
 <script setup>
-import kolabLogo from "@images/kolabicon.png";
-import { layoutConfig } from "@layouts";
+import kolabLogo from "@images/kolabwm.png"
+
+import { layoutConfig } from "@layouts"
 import {
   VerticalNavGroup,
   VerticalNavLink,
   VerticalNavSectionTitle,
-} from "@layouts/components";
-import { useLayoutConfigStore } from "@layouts/stores/config";
-import { injectionKeyIsVerticalNavHovered } from "@layouts/symbols";
-import { PerfectScrollbar } from "vue3-perfect-scrollbar";
+} from "@layouts/components"
+import { useLayoutConfigStore } from "@layouts/stores/config"
+import { injectionKeyIsVerticalNavHovered } from "@layouts/symbols"
+import { PerfectScrollbar } from "vue3-perfect-scrollbar"
+
 const props = defineProps({
   tag: {
     type: null,
@@ -27,51 +29,48 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-});
+})
 
-const refNav = ref();
-const isHovered = useElementHover(refNav);
+const refNav = ref()
+const isHovered = useElementHover(refNav)
 
-provide(injectionKeyIsVerticalNavHovered, isHovered);
+provide(injectionKeyIsVerticalNavHovered, isHovered)
 
-const configStore = useLayoutConfigStore();
+const configStore = useLayoutConfigStore()
 
-const resolveNavItemComponent = (item) => {
-  if ("heading" in item) return VerticalNavSectionTitle;
-  if ("children" in item) return VerticalNavGroup;
+const resolveNavItemComponent = item => {
+  if ("heading" in item) return VerticalNavSectionTitle
+  if ("children" in item) return VerticalNavGroup
 
-  return VerticalNavLink;
-};
+  return VerticalNavLink
+}
 
 /*ℹ️ Close overlay side when route is changed
 Close overlay vertical nav when link is clicked
 */
-const route = useRoute();
+const route = useRoute()
 
 watch(
   () => route.name,
   () => {
-    props.toggleIsOverlayNavActive(false);
-  }
-);
+    props.toggleIsOverlayNavActive(false)
+  },
+)
 
-const isVerticalNavScrolled = ref(false);
+const isVerticalNavScrolled = ref(false)
 
-const updateIsVerticalNavScrolled = (val) =>
-  (isVerticalNavScrolled.value = val);
+const updateIsVerticalNavScrolled = val =>
+  (isVerticalNavScrolled.value = val)
 
-const handleNavScroll = (evt) => {
-  isVerticalNavScrolled.value = evt.target.scrollTop > 0;
-};
+const handleNavScroll = evt => {
+  isVerticalNavScrolled.value = evt.target.scrollTop > 0
+}
 
-const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered);
+const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered)
 </script>
 
 <template>
-  <Component
-    :is="props.tag"
-    ref="refNav"
-    class="layout-vertical-nav"
+  <Component :is="props.tag" ref="refNav" style="background-color: #3e3e3e;color: #eee;" class="layout-vertical-nav "
     :class="[
       {
         'overlay-nav': configStore.isLessThanOverlayNavBreakpoint,
@@ -79,73 +78,40 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered);
         visible: isOverlayNavActive,
         scrolled: isVerticalNavScrolled,
       },
-    ]"
-  >
+    ]">
     <!-- 👉 Header -->
-    <div class="nav-header">
-      <slot name="nav-header">
-        <RouterLink to="/" class="app-logo app-title-wrapper">
-          <!-- <VNodeRenderer :nodes="layoutConfig.app.logo" /> -->
-          <VAvatar :image="kolabLogo" />
 
-          <Transition name="vertical-nav-app-title">
-            <h1 v-show="!hideTitleAndIcon" class="app-logo-title">
-              {{ layoutConfig.app.title }}
-            </h1>
-          </Transition>
+
+    <div class="nav-header bg-black">
+      <slot name="nav-header">
+        <RouterLink to="/" class="app-logo app-title-wrapper d-flex justify-center w-100">
+          <img class="logo-img" :src="kolabLogo">
         </RouterLink>
         <!-- 👉 Vertical nav actions -->
         <!-- Show toggle collapsible in >md and close button in <md -->
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          v-show="configStore.isVerticalNavCollapsed"
-          class="header-action d-none nav-unpin"
-          :class="configStore.isVerticalNavCollapsed && 'd-lg-block'"
-          v-bind="layoutConfig.icons.verticalNavUnPinned"
-          @click="
+        <Component :is="layoutConfig.app.iconRenderer || 'div'" v-show="configStore.isVerticalNavCollapsed"
+          class="header-action d-none nav-unpin" :class="configStore.isVerticalNavCollapsed && 'd-lg-block'"
+          v-bind="layoutConfig.icons.verticalNavUnPinned" @click="
             configStore.isVerticalNavCollapsed =
-              !configStore.isVerticalNavCollapsed
-          "
-        />
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          v-show="!configStore.isVerticalNavCollapsed"
-          class="header-action d-none nav-pin"
-          :class="!configStore.isVerticalNavCollapsed && 'd-lg-block'"
-          v-bind="layoutConfig.icons.verticalNavPinned"
-          @click="
+            !configStore.isVerticalNavCollapsed
+            " />
+        <Component :is="layoutConfig.app.iconRenderer || 'div'" v-show="!configStore.isVerticalNavCollapsed"
+          class="header-action d-none nav-pin" :class="!configStore.isVerticalNavCollapsed && 'd-lg-block'"
+          v-bind="layoutConfig.icons.verticalNavPinned" @click="
             configStore.isVerticalNavCollapsed =
-              !configStore.isVerticalNavCollapsed
-          "
-        />
-        <Component
-          :is="layoutConfig.app.iconRenderer || 'div'"
-          class="header-action d-lg-none"
-          v-bind="layoutConfig.icons.close"
-          @click="toggleIsOverlayNavActive(false)"
-        />
+            !configStore.isVerticalNavCollapsed
+            " />
+        <Component :is="layoutConfig.app.iconRenderer || 'div'" class="header-action d-lg-none"
+          v-bind="layoutConfig.icons.close" @click="toggleIsOverlayNavActive(false)" />
       </slot>
     </div>
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />
     </slot>
-    <slot
-      name="nav-items"
-      :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
-    >
-      <PerfectScrollbar
-        :key="configStore.isAppRTL"
-        tag="ul"
-        class="nav-items"
-        :options="{ wheelPropagation: false }"
-        @ps-scroll-y="handleNavScroll"
-      >
-        <Component
-          :is="resolveNavItemComponent(item)"
-          v-for="(item, index) in navItems"
-          :key="index"
-          :item="item"
-        />
+    <slot name="nav-items" :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled">
+      <PerfectScrollbar :key="configStore.isAppRTL" tag="ul" class="nav-items" :options="{ wheelPropagation: false }"
+        @ps-scroll-y="handleNavScroll">
+        <Component :is="resolveNavItemComponent(item)" v-for="(item, index) in navItems" :key="index" :item="item" />
       </PerfectScrollbar>
     </slot>
   </Component>
@@ -177,6 +143,7 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered);
   z-index: variables.$layout-vertical-nav-z-index;
   display: flex;
   flex-direction: column;
+  background-color: #3e3e3e;
   block-size: 100%;
   inline-size: variables.$layout-vertical-nav-width;
   inset-block-start: 0;
@@ -193,6 +160,7 @@ const hideTitleAndIcon = configStore.isVerticalNavMini(isHovered);
 
       @at-root {
         #{variables.$selector-vertical-nav-mini} .nav-header .header-action {
+
           &.nav-pin,
           &.nav-unpin {
             display: none !important;

@@ -7,7 +7,7 @@ export default [
       //   { title: "Influencer", to: "influencer-influencer" },
       { title: "Find", to: "influencer-influencer-finder" },
       // { title: "Profile", to: "influencer-influencer-profile" },
-      { title: "Upload Image", to: "influencer-influencer-image" },
+      // { title: "Upload Image", to: "influencer-influencer-image" },
       // { title: 'Chartjs', to: 'charts-chartjs' },
     ],
   },

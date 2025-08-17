@@ -51,13 +51,13 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
 
     // Enforce camelCase naming convention
-    'camelcase': 'error',
+//    'camelcase': 'error',
 
     // Disable max-len
     'max-len': 'off',
 
     // we don't want it
-    'semi': ['error', 'never'],
+   // 'semi': ['error', 'never'],
 
     // add parens ony when required in arrow function
     'arrow-parens': ['error', 'as-needed'],

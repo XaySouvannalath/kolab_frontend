@@ -1,301 +1,287 @@
 <template>
   <div>
-    <div class="demo-space-x">
-      <v-btn @click="$router.go(-1)">back</v-btn>
-      <v-btn @click="captureScreenshot">Take Screenshot</v-btn>
-      <v-text-field
-        label="Background Color"
-        type="color"
-        v-model="backgroundColor"
-      >
-      </v-text-field>
-      <!-- <v-text-field label="Font Color" type="color" v-model="fontColor">
-      </v-text-field> -->
-    </div>
-    <br />
-    <div
-      id="capture_zone"
-      class="capture_zone"
-      :style="{ backgroundColor: backgroundColor, color: fontColor }"
-    >
-      <v-row>
-        <!-- {{ influencer }} -->
-        <v-col cols="12">
-          <v-row>
-            <v-col cols="4">
-              <!-- <v-card height="250"> -->
-              <!-- {{ $file + influencer.photo }} -->
-              <v-img :src="$file + influencer.photo" :width="300"></v-img>
-              <!-- </v-card> -->
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
+    <div class="">
+      <VRow>
+        <!-- Back Button -->
+        <VCol lg="2" sm="6" md="4">
+          <VBtn block @click="$router.go(-1)">
+            <VIcon icon="tabler-arrow-left" />
+            back
+          </VBtn>
+        </VCol>
 
-      <v-row>
-        <v-col cols="12">
-          <v-typography class="text-h5">{{
-            influencer.channel_name
-          }}</v-typography>
-          <br />
+        <!-- Take Screenshot Button -->
+        <VCol lg="2" sm="6" md="4">
+          <VBtn block @click="captureScreenshot">
+            <VIcon icon="tabler-camera" />
+            Take Screenshot
+          </VBtn>
+        </VCol>
+
+        <!-- Background Color Input -->
+        <VCol lg="2" sm="6" md="4">
+          <VTextField v-model="backgroundColor" label="Background Color" type="color" outlined />
+        </VCol>
+
+        <!-- Update Logs Button -->
+        <VCol lg="2" sm="6" md="4">
+          <VBtn block @click="onShowUpdateLog">
+            <VIcon icon="tabler-info-circle" />
+            &nbsp; Update Logs
+          </VBtn>
+        </VCol>
+      </VRow>
+    </div>
+    <br>
+    <div id="capture_zone" class="capture_zone" :style="{ backgroundColor: backgroundColor, color: fontColor }">
+      <!-- <VRow> -->
+      <!-- <VCol cols="12"> -->
+      <!--
+        <VRow class="image-container">
+        <VCol cols="12" md="4">
+        <VImg  :src="$file + influencer.photo" style="
+        width: 450px;    height: 450px;
+        object-fit: cover;" />
+        </VCol>
+        <VCol cols="12" md="4">
+        <VImg class="img" :src="$file + influencer.photo2" />
+        </VCol>
+        <VCol cols="12" md="4">
+        <VImg class="img" :src="$file + influencer.photo3" />
+        </VCol>
+        </VRow> 
+      -->
+      <!-- </VCol> -->
+
+
+
+      <VRow class="image-container">
+        <VCol cols="12" md="4">
+          <img :src="$file + influencer.photo">
+        </VCol>
+        <VCol v-if="influencer.photo2" cols="12" md="4">
+          <img :src="$file + influencer.photo2">
+        </VCol>
+        <VCol v-if="influencer.photo3" cols="12" md="4">
+          <img :src="$file + influencer.photo3">
+        </VCol>
+      </VRow>
+
+
+      <!-- </VRow> -->
+
+      <VRow>
+        <VCol cols="12">
+          <VTypography class="text-h5">
+            {{ influencer.channel_name }}
+          </VTypography>
+          <br>
           <p>
-            <v-avatar :image="$file + '1724880906_location.png'" size="20">
-            </v-avatar>
+            <VAvatar :image="$file + '1724880906_location.png'" size="20" />
             {{ influencer.province_description }}
           </p>
-          <br />
+          <br>
           <div class="demo-space-x">
-            <template v-if="influencer.tags.length != 0">
-              <v-chip
-                variant="elevated"
-                pill
-                v-for="(tag, idx) in influencer.tags"
-                :key="idx"
-                :color="tag.color"
-              >
+            <template v-if="influencer.tags.length !== 0">
+              <VChip v-for="(tag, idx) in influencer.tags" :key="idx" variant="elevated" pill :color="tag.color">
                 {{ tag.tag }}
-              </v-chip>
+              </VChip>
             </template>
-            <template v-else> - </template>
+            <template v-else>
+              -
+            </template>
           </div>
-        </v-col>
-      </v-row>
+        </VCol>
+      </VRow>
 
-      <v-row>
-        <v-col cols="3">
-          <v-card variant="outlined" height="300">
-            <v-card-title>Followers</v-card-title>
-            <v-card-text>
-              <v-list>
-                <v-list-item
-                  v-for="(el, idx) in influencer.social_accounts"
-                  :key="idx"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <v-row>
-                        <v-col cols="2">
-                          <v-avatar
-                            size="40"
-                            :image="$file + el.logo_image"
-                          ></v-avatar>
-                        </v-col>
-                        <v-col>
-                          {{ el.platform_name }}<br />
-                          {{ $formatNumber.format(el.num_of_follower) }}
-                          Followers
-                        </v-col>
-                      </v-row>
-                    </v-list-item-title>
-                    <v-list-item-subtitle></v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="5">
-          <v-card variant="outlined" height="300">
-            <v-card-title>Basic Information</v-card-title>
-            <v-list>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Full Name</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    influencer.first_name + " " + influencer.last_name
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Nick Name</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    influencer.nick_name
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Date of Birth</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    influencer.date_of_birth
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+      <VRow>
+        <VCol cols="12" md="4">
+          <VCard variant="outlined" height="300">
+            <VCardTitle>Followers</VCardTitle>
+            <VCardText>
+              <VList>
+                <VListItem v-for="(el, idx) in influencer.social_accounts" :key="idx">
+                  <VListItemContent>
+                    <VListItemTitle>
+                      <VRow>
+                        <VCol cols="2">
+                          <VAvatar size="40" :image="$file + el.logo_image" />
+                        </VCol>
+                        <VCol>
+                          {{ el.platform_name }}<br>
+                          {{ $formatNumber.format(el.num_of_follower) }} Followers
+                        </VCol>
+                      </VRow>
+                    </VListItemTitle>
+                  </VListItemContent>
+                </VListItem>
+              </VList>
+            </VCardText>
+          </VCard>
+        </VCol>
 
-              <v-list-item v-if="influencer.has_agency == true">
-                <v-list-item-content>
-                  <v-list-item-title>Agency</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    influencer.agency_name
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
-        <v-col cols="4">
-          <v-row>
-            <v-col cols="12">
-              <v-card variant="outlined" height="300">
-                <v-card-title>Short Notes</v-card-title>
-                <v-card-text>{{ influencer.remark }}</v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <br>
-    </div>
-    <v-row>
-      <v-col cols="4">
-        <v-card variant="outlined">
-          <v-card-title>Rate Card</v-card-title>
-
-          <!-- {{ priceLists }} -->
-          <!-- <v-list>
-              <v-list-item v-for="el in priceLists" :key="el.meta_id">
-                <v-list-item-content>
-                  <v-list-item-title>{{ el.name }}</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    formatCurrency(el.price)
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list> -->
-          <VCardText>
-            <VList class="card-list">
-              <VListItem v-for="(el, idx) in priceLists" :key="el.meta_id">
-                <template #prepend>
-                  <!-- <VAvatar
-              size="46"
-              rounded
-              class="me-1"
-              :image="product.avatarImg"
-            /> -->
-                </template>
-
-                <VListItemTitle class="font-weight-medium me-4">
-                  {{ idx + 1 }}. {{ el.name }}
-                </VListItemTitle>
-                <VListItemSubtitle class="me-4">
-                  <!-- {{ product.subtitle }} -->
-                </VListItemSubtitle>
-
-                <template #append>
-                  <div class="d-flex align-center">
-                    <span class="text-body-1">
-                      {{ formatCurrency(el.price) }}</span
-                    >
-                  </div>
-                </template>
+        <VCol cols="12" md="5">
+          <VCard variant="outlined" height="300">
+            <VCardTitle>Basic Information</VCardTitle>
+            <VList>
+              <VListItem>
+                <VListItemContent>
+                  <VListItemTitle>Full Name</VListItemTitle>
+                  <VListItemSubtitle>{{ influencer.first_name + " " + influencer.last_name }}</VListItemSubtitle>
+                </VListItemContent>
+              </VListItem>
+              <VListItem>
+                <VListItemContent>
+                  <VListItemTitle>Nick Name</VListItemTitle>
+                  <VListItemSubtitle>{{ influencer.nick_name }}</VListItemSubtitle>
+                </VListItemContent>
+              </VListItem>
+              <VListItem>
+                <VListItemContent>
+                  <VListItemTitle>Date of Birth</VListItemTitle>
+                  <VListItemSubtitle>{{ influencer.date_of_birth }}</VListItemSubtitle>
+                </VListItemContent>
+              </VListItem>
+              <VListItem v-if="influencer.has_agency">
+                <VListItemContent>
+                  <VListItemTitle>Agency</VListItemTitle>
+                  <VListItemSubtitle>{{ influencer.agency_name }}</VListItemSubtitle>
+                </VListItemContent>
               </VListItem>
             </VList>
-          </VCardText>
-        </v-card>
-      </v-col>
-      <v-col cols="4">
-        <!-- {{ influencerRatings }} -->
-        <!-- <VueApexCharts
-            type="radar"
-            height="400"
-            :series="influencerRatings"
-          /> -->
-        <v-card title="Rating" variant="outlined">
-          <v-card-text>
-            <apex-chart-mobile-comparison
-              :data="influencerRatings.series"
-            ></apex-chart-mobile-comparison>
-          </v-card-text>
-        </v-card>
+          </VCard>
+        </VCol>
 
-        <apexchart type="radar" height="350" :series="influencerRatings" />
-      </v-col>
-    </v-row>
+        <VCol cols="12" md="3">
+          <VCard variant="outlined" height="300" style="overflow: auto !important;">
+            <VCardTitle>Short Notes</VCardTitle>
+            <div>
+              <VCardText>
+                {{ influencer.remark }}
+              </VCardText>
+            </div>
+          </VCard>
+        </VCol>
+      </VRow>
 
-    <v-row>
-      <v-col cols="4">
-        <v-card variant="outlined">
-          <v-card-title>Impressions</v-card-title>
-          <!-- {{ influencer.impression }} -->
-          <v-card-subtitle>{{
-            $r.impressionRanking(influencer.impression)
-          }}</v-card-subtitle>
-          <v-card-text>{{ influencer.impression }}</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="4">
-        <v-card variant="outlined">
-          <v-card-title>Reach</v-card-title>
-          <!-- <v-card-subtitle>High</v-card-subtitle> -->
-          <v-card-text>{{ influencer.reach }}</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="4">
-        <v-card variant="outlined">
-          <v-card-title>Engagement</v-card-title>
+      <VRow>
+        <VCol cols="12" md="4">
+          <VCard variant="outlined" height="400">
+            <VCardTitle>Rate Card</VCardTitle>
+            <VCardText>
+              <VList class="card-list">
+                <VListItem v-for="(el, idx) in priceLists" :key="el.meta_id">
+                  <VListItemTitle class="font-weight-medium">
+                    {{ idx + 1 }}. {{ el.name }}
+                  </VListItemTitle>
+                  <template #append>
+                    <span>{{ formatCurrency(el.price) }}</span>
+                  </template>
+                </VListItem>
+              </VList>
+            </VCardText>
+          </VCard>
+        </VCol>
+        <VCol cols="12" md="4">
+          <VCard title="Rating" variant="outlined" height="400">
+            <VCardText>
+              <ApexChartMobileComparison :data="influencerRatings.series" />
+            </VCardText>
+          </VCard>
+          <Apexchart type="radar" height="350" :series="influencerRatings" />
+        </VCol>
+      </VRow>
+    </div>
+    <VRow>
+      <VCol cols="12" md="4">
+        <VCard variant="outlined" height="200">
+          <VCardTitle>Impressions</VCardTitle>
+          <VCardSubtitle>{{ $r.impressionRanking(influencer.impression) }}</VCardSubtitle>
+          <VCardText>{{ influencer.impression }}</VCardText>
+        </VCard>
+      </VCol>
+      <VCol cols="12" md="4">
+        <VCard variant="outlined" height="200">
+          <VCardTitle>Reach</VCardTitle>
+          <VCardText>{{ influencer.reach }}</VCardText>
+        </VCard>
+      </VCol>
+      <VCol cols="12" md="4">
+        <VCard variant="outlined" height="200">
+          <VCardTitle>Engagement</VCardTitle>
+          <VCardSubtitle>{{ $r.engagementRanking(influencer.engagement) }}</VCardSubtitle>
+          <VCardText>{{ influencer.engagement }}</VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
-          <v-card-subtitle>{{
-            $r.engagementRanking(influencer.engagement)
-          }}</v-card-subtitle>
-          <v-card-text>{{ influencer.engagement }}</v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <p class="text-h5">Campaigns</p>
-    <v-row>
-      <v-col cols="4" v-for="(el, idx) in influencerReviews" :key="idx">
-        <v-card variant="outlined">
-          <!-- <v-img
-            src="https://via.placeholder.com/150"
-            aspect-ratio="1.75"
-          ></v-img> -->
-          <!-- <v-card-subtitle>Image Description</v-card-subtitle> -->
-          <v-card-title>
-            <v-row>
-              <v-col>
+    <p class="text-h5">
+      Campaigns
+    </p>
+    <VRow>
+      <VCol v-for="(el, idx) in influencerReviews" :key="idx" cols="12" md="4">
+        <VCard variant="outlined">
+          <VCardTitle>
+            <VRow>
+              <VCol>
                 <p><strong>Brand:</strong> {{ el.brand }}</p>
                 <p><strong>Campaign name:</strong> {{ el.campaign_name }}</p>
-              </v-col>
-              <v-col style="text-align: right">
-                <v-spacer></v-spacer>
-                <v-chip
-                  variant="elevated"
-                  :color="$r.rwranking(el.score).color"
-                >
+              </VCol>
+              <VCol style="text-align: end;">
+                <VChip variant="elevated" :color="$r.rwranking(el.score).color">
                   {{ $r.rwranking(el.score).rank }}
-                </v-chip>
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <p>
-              <strong>Campaign period:</strong>From {{ el.start_at }} to
-              {{ el.end_at }}
-            </p>
+                </VChip>
+              </VCol>
+            </VRow>
+          </VCardTitle>
+          <VCardText>
+            <p><strong>Campaign period:</strong>From {{ el.start_at }} to {{ el.end_at }}</p>
             <p><strong>Engagement:</strong> {{ el.engagement }}</p>
             <p><strong>Impression:</strong> {{ el.impression }}</p>
             <p><strong>Reach:</strong> {{ el.reach }}</p>
-            <v-divider></v-divider>
-            <image-preview :images="el.images" :imageSize="70"> </image-preview>
-          </v-card-text>
+            <VDivider />
+            <ImagePreview :images="el.images" :image-size="70" />
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
-          <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn> View </v-btn>
-          </v-card-actions> -->
-        </v-card>
-      </v-col>
-    </v-row>
+    <VDialog v-model="isShowUpdateLog" max-width="400">
+      <VCard>
+        <VCardTitle>
+          Last update data
+        </VCardTitle>
+        <VDivider />
+        <VCardText>
+          <VList>
+            <VListItemGroup>
+              <VListItem v-for="(value, key) in updateLogs" :key="key">
+                <VListItemContent>
+                  <VListItemTitle>{{ key }}</VListItemTitle>
+                  <VListItemSubtitle>{{ $df.date(value) }}</VListItemSubtitle>
+                </VListItemContent>
+              </VListItem>
+            </VListItemGroup>
+          </VList>
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn @click="onShowUpdateLog">
+            Close
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
   </div>
-  <!-- Placeholder to display the captured screenshot -->
 </template>
-  
+
+
 <script>
 import ImagePreview from "@/components/ImagePreview.vue";
 import domtoimage from "dom-to-image";
 import VueApexCharts from "vue3-apexcharts";
 import ApexChartMobileComparison from "./ApexChartMobileComparison.vue";
+
 export default {
   components: {
     apexchart: VueApexCharts,
@@ -332,6 +318,7 @@ export default {
         province_description: "",
         tags: [],
         socialAccountLists: [],
+
       },
       screenshot: null,
       mkdata: {
@@ -346,99 +333,130 @@ export default {
           "Growth and Popularity",
         ],
       },
-    };
-  },
 
+      isShowUpdateLog: false,
+      updateLogs: null,
+    }
+  },
+  computed: {
+    influencer_id() {
+      return this.$route.query.id
+    },
+  },
+  watch: {
+    isShowUpdateLog(value) {
+      if (value == true) {
+        this.fetchUpdateLog()
+      }
+    },
+  },
+  mounted() {
+    this.fetchInfluencerInfo()
+    this.fetchPriceOfPost()
+    this.fetchInfluencerRating()
+    this.fetchSocialAccount()
+    this.fetchInfluencerReviews()
+  },
   methods: {
+    async fetchUpdateLog() {
+      this.$store.commit("el")
+      this.$axios.get("/utilities/InfluencerDataLastUpdateTime?influencer_id=2").then(res => {
+        this.$store.commit("dl")
+        console.log(res)
+        this.updateLogs = res.data
+      })
+    },
     fetchInfluencerInfo() {
-      this.$store.commit("el");
+      c
+      this.$store.commit("el")
       this.$axios
         .post("/influencer/search", { id: this.$route.query.id })
-        .then((response) => {
-          console.log(response);
-          this.influencer = response.data[0];
-          this.$store.commit("dl");
+        .then(response => {
+          console.log(response)
+          this.influencer = response.data[0]
+          this.$store.commit("dl")
         })
-        .catch((error) => {
-          console.log(error);
-          this.$store.commit("dl");
-        });
+        .catch(error => {
+          console.log(error)
+          this.$store.commit("dl")
+        })
     },
     fetchPriceOfPost() {
-      this.$store.commit("el");
+      this.$store.commit("el")
       this.$axios
         .get(
-          "/price_of_posts/by_influencer?influencer_id=" + this.$route.query.id
+          "/price_of_posts/by_influencer?influencer_id=" + this.$route.query.id,
         )
-        .then((response) => {
-          this.priceLists = response.data;
-          this.$store.commit("dl");
+        .then(response => {
+          this.priceLists = response.data
+          this.$store.commit("dl")
         })
-        .catch((error) => {
-          console.error(error);
-          this.$store.commit("dl");
-        });
+        .catch(error => {
+          console.error(error)
+          this.$store.commit("dl")
+        })
     },
     fetchInfluencerRating() {
-      this.$store.commit("el");
+      this.$store.commit("el")
       this.$axios
         .get("/influencer-rating/" + this.$route.query.id)
-        .then((response) => {
-          this.influencerRatings = response.data;
-          this.$store.commit("dl");
+        .then(response => {
+          this.influencerRatings = response.data
+          this.$store.commit("dl")
         })
-        .catch((error) => {
-          console.error(error);
-          this.$store.commit("dl");
-        });
+        .catch(error => {
+          console.error(error)
+          this.$store.commit("dl")
+        })
     },
     fetchSocialAccount() {
-      this.$store.commit("el");
+      this.$store.commit("el")
       this.$axios
         .get(
           "/social-account/by_influencer_id?influencer_id=" +
-            this.$route.query.id
+          this.$route.query.id,
         )
-        .then(async (response) => {
-          console.log(response);
-          this.socialAccountLists = response.data;
+        .then(async response => {
+          console.log(response)
+          this.socialAccountLists = response.data
+
           // get follower
           for (let i = 0; i < this.socialAccountLists.length; i++) {
             await this.$axios
               .get(
                 this.socialAccountLists[i]["api_follower_link"] +
-                  "?username=" +
-                  this.socialAccountLists[i]["profile_url"]
+                "?username=" +
+                this.socialAccountLists[i]["profile_url"],
               )
-              .then((res) => {
-                this.socialAccountLists[i].followers = res.data.followers;
-                this.socialAccountLists[i].ranking = res.data.ranking;
-              });
+              .then(res => {
+                this.socialAccountLists[i].followers = res.data.followers
+                this.socialAccountLists[i].ranking = res.data.ranking
+              })
           }
 
-          this.$store.commit("dl");
+          this.$store.commit("dl")
         })
-        .catch((error) => {
-          console.error(error);
-          this.$store.commit("dl");
-        });
+        .catch(error => {
+          console.error(error)
+          this.$store.commit("dl")
+        })
     },
     fetchInfluencerReviews() {
-      this.$store.commit("el");
+      this.$store.commit("el")
       this.$axios
         .get(
           "/influencer_reviews/by_influencer_id?influencer_id=" +
-            this.$route.query.id
+          this.$route.query.id,
         )
-        .then((response) => {
-          this.influencerReviews = response.data;
+        .then(response => {
+          this.influencerReviews = response.data
 
-          this.$store.commit("dl");
+          this.$store.commit("dl")
         })
-        .catch((error) => {
-          console.error(error);
-          this.$store.commit("dl");
-        });
+        .catch(error => {
+          console.error(error)
+          this.$store.commit("dl")
+        })
     },
     formatCurrency(amount) {
       // Use Intl.NumberFormat to format the number
@@ -447,52 +465,47 @@ export default {
         currency: "LAK",
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-      }).format(amount);
+      }).format(amount)
     },
 
     async captureScreenshot() {
       try {
-        this.$store.commit("el");
+        this.$store.commit("el")
 
-        const node = document.getElementById("capture_zone");
+        const node = document.getElementById("capture_zone")
 
         const dataUrl = await domtoimage.toPng(node, {
           crossorigin: "anonymous",
           cacheBust: true,
           bgcolor: this.backgroundColor, // Sets a background color for the image
           quality: 1, // Ensure high quality
-        });
+        })
 
         // Create a link and trigger download
-        const link = document.createElement("a");
-        link.href = dataUrl;
-        link.download = this.influencer.channel_name;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const link = document.createElement("a")
 
-        this.$store.commit("dl");
+        link.href = dataUrl
+        link.download = this.influencer.channel_name
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+
+        this.$store.commit("dl")
       } catch (error) {
-        console.error("Error capturing the screenshot:", error);
-        this.$store.commit("dl");
+        console.error("Error capturing the screenshot:", error)
+        this.$store.commit("dl")
       }
     },
-  },
-  computed: {
-    influencer_id() {
-      return this.$route.query.id;
+    async onShowUpdateLog() {
+      this.isShowUpdateLog = !this.isShowUpdateLog
     },
+
+
+
   },
-  mounted() {
-    this.fetchInfluencerInfo();
-    this.fetchPriceOfPost();
-    this.fetchInfluencerRating();
-    this.fetchSocialAccount();
-    this.fetchInfluencerReviews();
-  },
-};
+}
 </script>
-  
+
 <style lang="scss" scoped>
 @use "@core/scss/template/libs/apex-chart.scss";
 
@@ -507,12 +520,13 @@ export default {
 }
 
 .capture_zone {
-  margin: 10px;
   padding: 10px;
+  margin: 10px;
 }
+
 /* Add your styles here */
 .mt-12 {
-  margin-top: 3rem;
+  margin-block-start: 3rem;
 }
 
 .screenshot-content {
@@ -522,16 +536,28 @@ export default {
 }
 
 .screenshot-preview {
-  margin-top: 20px;
+  margin-block-start: 20px;
   text-align: center;
 }
 
 .screenshot-preview img {
-  max-width: 100%;
   border: 2px solid #333;
+  max-inline-size: 100%;
 }
+
 .v-list {
   background-color: transparent !important;
 }
+
+.image-container {
+  display: flex;
+
+  /* Adds space between images */
+}
+
+.image-container img {
+  block-size: 400px;
+  inline-size: 400px;
+  object-fit: cover;
+}
 </style>
-  

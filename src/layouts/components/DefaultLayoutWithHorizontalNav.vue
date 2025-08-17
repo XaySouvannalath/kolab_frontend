@@ -29,6 +29,7 @@ watch([
 <template>
   <HorizontalNavLayout :nav-items="navItems">
     <!-- 👉 navbar -->
+      
     <template #navbar>
       <RouterLink
         to="/"
@@ -48,6 +49,8 @@ watch([
       />
 
       <NavbarThemeSwitcher class="me-2" />
+
+      
       <UserProfile />
     </template>
 

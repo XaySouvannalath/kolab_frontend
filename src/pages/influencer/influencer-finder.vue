@@ -261,7 +261,15 @@ const avatars = [avatar1, avatar2, avatar3, avatar4];
         </v-card-actions>
       </VCard>
     </VCol>
+
+    <br/>
+    <br/>
+    <VPagination
+    v-model="currentPage"
+    :length="5"
+  />
   </VRow>
+
   <v-row v-else>
     <empty-data></empty-data>
   </v-row>
@@ -419,7 +427,7 @@ export default {
     },
     onViewProfile(id) {
       this.$router.push({
-        name: "influencer-influencer-profile",
+        name: "influencer-influencer-profile-v2",
         query: { id: id },
       });
     },

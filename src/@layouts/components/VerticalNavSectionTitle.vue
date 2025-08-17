@@ -26,6 +26,7 @@ const shallRenderIcon = configStore.isVerticalNavMini()
         mode="out-in"
       >
         <Component
+        style="color:white;"
           :is="shallRenderIcon ? layoutConfig.app.iconRenderer : layoutConfig.app.i18n.enable ? 'i18n-t' : 'span'"
           :key="shallRenderIcon"
           :class="shallRenderIcon ? 'placeholder-icon' : 'title-text'"

@@ -90,7 +90,6 @@ const triggeredRemove = () => {
 
 <template>
   <VExpandTransition>
-    <!-- TODO remove div when transition work with v-card components: https://github.com/vuetifyjs/vuetify/issues/15111 -->
     <div v-if="!isCardRemoved">
       <VCard v-bind="$attrs">
         <VCardItem>

@@ -102,3 +102,24 @@ GET https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics
 
 Authorization: Bearer [YOUR_ACCESS_TOKEN]
 Accept: application/json
+
+
+
+
+config nav menu in this file: VerticalNav.vue
+
+
+
+
+# Update on 17/08/2025
+
+## backend api
+- 1. http://localhost:8000/social-account/by_influencer_id?influencer_id=40
+    add average_engagement
+
+
+
+
+## front end
+- fix achievement
+- fix image

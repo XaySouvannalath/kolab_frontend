@@ -70,7 +70,9 @@
                   label="Last Name"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12"
+              v-if="dialogMode == 'create'"
+              >
                 <v-text-field
                   v-model="editedItem.password"
                   label="Password"
@@ -113,6 +115,8 @@
 </template>
   
   <script>
+import { md5 } from 'js-md5';
+
 export default {
   data() {
     return {
@@ -163,7 +167,7 @@ export default {
   methods: {
     fetchUsers() {
       this.$axios
-        .get("/users")
+        .get("/users/")
         .then((response) => {
           this.users = response.data;
         })
@@ -183,8 +187,12 @@ export default {
     },
     saveUser() {
       if (this.dialogMode === "create") {
+
+        var data_for_create = this.editedItem
+        data_for_create.password = md5(this.editedItem.password)
+
         this.$axios
-          .post("/users", this.editedItem)
+          .post("/users/", data_for_create)
           .then(() => {
             this.fetchUsers();
             this.closeDialog();

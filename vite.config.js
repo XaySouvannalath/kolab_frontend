@@ -9,13 +9,18 @@ import {
 } from "unplugin-vue-router";
 import VueRouter from "unplugin-vue-router/vite";
 import { defineConfig } from "vite";
-import VueDevTools from "vite-plugin-vue-devtools";
+
+// Remove or comment out the Vue DevTools import
+// import VueDevTools from "vite-plugin-vue-devtools";
 import Layouts from "vite-plugin-vue-layouts";
 import vuetify from "vite-plugin-vuetify";
 import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 8888,
+  },
   plugins: [
     // Docs: https://github.com/posva/unplugin-vue-router
     // ℹ️ This plugin should be placed before vue plugin
@@ -36,7 +41,9 @@ export default defineConfig({
         },
       },
     }),
-    VueDevTools(),
+
+    // Remove or comment out the Vue DevTools plugin
+    // VueDevTools(),
     vueJsx(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin

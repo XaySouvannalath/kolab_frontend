@@ -13,6 +13,7 @@ export default [
       { title: "System Menu", to: "manage-menu" },
       { title: "User", to: "manage-user" },
       { title: "User Role", to: "manage-user-role" },
+      { title: "Reset Password", to: "manage-reset-password" },
       // { title: 'Chartjs', to: 'charts-chartjs' },
     ],
   },

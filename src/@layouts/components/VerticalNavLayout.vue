@@ -38,7 +38,7 @@ export default defineComponent({
       if (!configStore.isLessThanOverlayNavBreakpoint && isLayoutOverlayVisible.value)
         isLayoutOverlayVisible.value = false
     })
-    
+
     return () => {
       const verticalNavAttrs = toRef(props, 'verticalNavAttrs')
       const { wrapper: verticalNavWrapper, wrapperProps: verticalNavWrapperProps, ...additionalVerticalNavAttrs } = verticalNavAttrs.value
@@ -95,13 +95,13 @@ export default defineComponent({
 @use "@layouts/styles/mixins";
 
 .layout-wrapper.layout-nav-type-vertical {
-  // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav
   block-size: 100%;
 
   .layout-content-wrapper {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    border-radius: 20px;
     min-block-size: 100dvh;
     transition: padding-inline-start 0.2s ease-in-out;
     will-change: padding-inline-start;
@@ -115,7 +115,14 @@ export default defineComponent({
     z-index: variables.$layout-vertical-nav-layout-navbar-z-index;
 
     .navbar-content-container {
+      position: relative;
+      border-radius: 30px!important;
+      justify-content: space-between;
+      background: linear-gradient(to right, #6975ff, #794fff, #8e54ff, #be60ff);
       block-size: variables.$layout-vertical-nav-navbar-height;
+      color: white;
+      padding-block: 0.5rem;
+      padding-inline: 1rem;
     }
 
     @at-root {
@@ -124,6 +131,7 @@ export default defineComponent({
           @if variables.$layout-vertical-nav-navbar-is-contained {
             @include mixins.boxed-content;
           }
+
           /* stylelint-disable-next-line @stylistic/indentation */
           @else {
             .navbar-content-container {
