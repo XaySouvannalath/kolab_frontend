@@ -157,13 +157,12 @@
 
             <!-- Date of Birth -->
             <div class="mb-4">
-              <div class="text-subtitle-1 mb-1">Day of Birth</div>
-              <VTextField
+              <div class="text-subtitle-1 mb-1">Date of Birth</div>
+              <AppDateTimePicker
                 v-model="influencer.date_of_birth"
-                variant="outlined"
-                density="compact"
-                hide-details
-                type="date"
+                
+                placeholder="Select date and time"
+                :config="{ dateFormat: 'd-m-Y' }"
               />
             </div>
 
@@ -191,7 +190,7 @@
               </div>
             </div>
 
-            <!-- NOTE Social Media Sections -->
+            <!--  Social Media Sections -->
             <div
               v-for="socialPlatform in socialAccounts"
               :key="socialPlatform.id"
@@ -331,23 +330,32 @@
               </VCombobox>
             </div>
 
-            <!-- Achievements -->
+            <!-- NOTE Achievements -->
             <div class="mb-4">
               <div class="text-subtitle-1 mb-1">Achievements:</div>
               <div class="achievements-container pa-3">
                 <ul class="achievements-list">
-                  <div v-for="(achievement, idx) in formattedAchievements" :key="idx" class="mb-2">
+                  <!--
+                    {{
+                    influencer.achievements
+                    }} 
+                  -->
+                  <div
+                    v-for="(achievement, idx) in influencer.achievements"
+                    :key="idx"
+                    class="mb-2"
+                  >
                     <div class="d-flex align-center">
                       <VTextField
-                        v-model="formattedAchievements[idx]"
+                        v-model="achievement.achievement_text"
                         variant="outlined"
                         full-width
                         density="compact"
                         hide-details
                         placeholder="Enter achievement"
                       />
-                      <VSpacer />
-                      <VBtn icon="mdi-pencil" size="x-small" variant="text" class="mr-1" />
+                      <!-- <VSpacer /> -->
+                      <!-- <VBtn icon="mdi-pencil" size="x-small" variant="text" class="mr-1" /> -->
                       <VBtn
                         icon="tabler-trash"
                         size="x-small"
@@ -590,7 +598,7 @@ export default {
     },
 
     fetchProvinces() {
-      // NOTE fetch Province
+      //  fetch Province
       this.$axios.get('/provinces').then(response => {
         this.provinceOptions = response.data
       })
@@ -682,18 +690,37 @@ export default {
     },
 
     addAchievement() {
-      const currentAchievements = this.formattedAchievements
-
-      currentAchievements.push('')
-      this.formattedAchievements = currentAchievements
+      this.influencer.achievements.push({
+        influencer_id: this.influencer_id,
+        achievement_text: '',
+      })
     },
 
     removeAchievement(index) {
-      // Create a new array by filtering out the item at the specified index
-      const newAchievements = this.formattedAchievements.filter((_, i) => i !== index)
-
-      // Update the achievements using the filtered array
-      this.formattedAchievements = newAchievements
+      //NOTE: if has id API:DELETE else remove from json
+      if (confirm('Do you want to delete this item?')) {
+        let id = this.influencer.achievements[index].id
+        if (id) {
+          // delete by api
+          this.$axios
+            .delete('/achievement/' + id)
+            .then(response => {
+              this.influencer[this.currentPhotoField] = response.data.path
+              this.showFileDialog = false
+              this.uploadFile = null
+              this.loading = false
+              this.influencer.achievements.splice(index, 1)
+            })
+            .catch(error => {
+              console.error(error)
+              this.loading = false
+            })
+        } else {
+          this.influencer.achievements.splice(index, 1)
+        }
+      } else {
+        console.log('Deletion canceled.')
+      }
     },
 
     getPlatformIcon(platformType) {
@@ -769,10 +796,6 @@ export default {
         tag: skill.tag,
       }))
 
-      // Store achievements as a comma-separated string rather than an array
-      influencerData.achievements =
-        typeof this.achievements === 'string' ? this.achievements : this.achievements.join(',')
-
       influencerData.social_accounts = this.socialAccounts
 
       // Save to API
@@ -786,13 +809,10 @@ export default {
           .put(apiEndpoint, influencerData)
           .then(response => {
             this.loading = false
-
           })
           .catch(error => {
             console.error(error)
             this.loading = false
-
-   
           })
       } else {
         this.$axios

@@ -50,13 +50,17 @@
     </VRow>
 
     <!-- Main Content -->
-    <div id="capture_zone" class="capture_zone" :style="{
-      backgroundColor: backgroundColor,
-      color: fontColor
-    }">
+    <div
+      id="capture_zone"
+      class="capture_zone"
+      :style="{
+        backgroundColor: backgroundColor,
+        color: fontColor,
+      }"
+    >
       <!-- Add floating action button at bottom right of the page -->
       <VBtn color="" icon size="large" class="page-action-btn-bottom" @click="captureProfileRow">
-        <img src="@/assets/saveasimage.png" alt="Save as image" class="button-img">
+        <img src="@/assets/saveasimage.png" alt="Save as image" class="button-img" />
       </VBtn>
 
       <div id="influencer-profile-row" class="profile-container position-relative">
@@ -68,9 +72,15 @@
           <VCol cols="12" md="4">
             <div id="profile-column" class="profile-card position-relative">
               <div class="watermark-container-profile" />
-              <VBtn v-show="showProfileActionBtn" color="" icon size="medium" class="profile-action-btn"
-                @click="captureScreenshot">
-                <img src="@/assets/saveasimage.png" alt="Save as image" class="button-img">
+              <VBtn
+                v-show="showProfileActionBtn"
+                color=""
+                icon
+                size="medium"
+                class="profile-action-btn"
+                @click="captureScreenshot"
+              >
+                <img src="@/assets/saveasimage.png" alt="Save as image" class="button-img" />
               </VBtn>
               <div class="profile-image-container position-relative mb-4">
                 <VAvatar :image="$file + influencer.photo" size="160" class="mb-2 profile-avatar" />
@@ -104,7 +114,7 @@
               <div class="analytics-section">
                 <div class="align-center text-center mb-3">
                   <span class="font-weight-medium text-center">KOLAB'S ANALYTICS</span>
-                  <br>
+                  <br />
                   <span class="text-caption text-center text-medium-emphasis mt-2">
                     Metrics calculated based on data from the last 90 days by Kolab’s team.
                   </span>
@@ -120,28 +130,16 @@
 
                 <div class="metrics-grid">
                   <div class="metric-item">
-                    <div class="metric-label">
-                      Avg. E/Post
-                    </div>
-                    <div class="metric-value">
-                      1K
-                    </div>
+                    <div class="metric-label">Avg. E/Post</div>
+                    <div class="metric-value">1K</div>
                   </div>
                   <div class="metric-item">
-                    <div class="metric-label">
-                      Avg. ER.
-                    </div>
-                    <div class="metric-value">
-                      5.5%
-                    </div>
+                    <div class="metric-label">Avg. ER.</div>
+                    <div class="metric-value">5.5%</div>
                   </div>
                   <div class="metric-item">
-                    <div class="metric-label">
-                      Efficiency Rank
-                    </div>
-                    <div class="metric-value">
-                      A
-                    </div>
+                    <div class="metric-label">Efficiency Rank</div>
+                    <div class="metric-value">A</div>
                   </div>
                 </div>
               </div>
@@ -156,16 +154,26 @@
                 -->
 
                 <div class="social-accounts">
-                  <div v-for="(account, index) in influencer.social_accounts" :key="index"
+                  <div
+                    v-for="(account, index) in influencer.social_accounts"
+                    :key="index"
                     class="social-account-item d-flex align-center py-2"
-                    :style="{ backgroundColor: account.platform_color }">
+                    :style="{ backgroundColor: account.platform_color }"
+                  >
                     <div class="social-icon facebook mr-3">
-                      <img :src="$file + account.logo_image" alt="Facebook" width="20" height="20">
+                      <img
+                        :src="$file + account.logo_image"
+                        alt="Facebook"
+                        width="20"
+                        height="20"
+                      />
                     </div>
                     <div class="social-account-details">
                       <div class="social-username">
-                        {{ account.profile_name || '' }} - <a :href="account.web_url + account.profile_url"
-                          target="_blank">{{ account.profile_url || '' }} </a>
+                        {{ account.profile_name || '' }} -
+                        <a :href="account.web_url + account.profile_url" target="_blank"
+                          >{{ account.profile_url || '' }}
+                        </a>
                       </div>
                       <div class="social-stats text-caption">
                         Tier A • {{ $formatNumber.format(account.num_of_follower) || '' }} followers
@@ -245,16 +253,13 @@
               <div class="d-flex align-center justify-space-between mb-2">
                 <VCard class="text-center portfolio-header w-100">
                   <VCardText class="text-caption">
-                    <div class="text-h6 font-weight-bold">
-                      PORTFOLIO
-                    </div>
+                    <div class="text-h6 font-weight-bold">PORTFOLIO</div>
                     <div class="text-caption">
                       Based on data from the last 365 days by Kolab's team.
                     </div>
                   </VCardText>
                 </VCard>
               </div>
-
 
               <!--
                 <div class="image-container">
@@ -266,22 +271,20 @@
               -->
               <VRow class="image-container">
                 <VCol cols="12" md="4" class="d-flex justify-center">
-                  <img :src="$file + influencer.photo" class="portfolio-img">
+                  <img :src="$file + influencer.photo" class="portfolio-img" />
                 </VCol>
                 <VCol v-if="influencer.photo2" cols="12" md="4" class="d-flex justify-center">
-                  <img :src="$file + influencer.photo2" class="portfolio-img">
+                  <img :src="$file + influencer.photo2" class="portfolio-img" />
                 </VCol>
                 <VCol v-if="influencer.photo3" cols="12" md="4" class="d-flex justify-center">
-                  <img :src="$file + influencer.photo3" class="portfolio-img">
+                  <img :src="$file + influencer.photo3" class="portfolio-img" />
                 </VCol>
               </VRow>
             </div>
 
             <!-- Notable Projects -->
             <div class="mb-5 text-center">
-              <div class="text-subtitle-1 font-weight-bold mb-1">
-                Latest Notable Projects:
-              </div>
+              <div class="text-subtitle-1 font-weight-bold mb-1">Latest Notable Projects:</div>
               <div class="text-body-1">
                 {{ influencer.notable_projects || '' }}
               </div>
@@ -297,12 +300,15 @@
 
             <!-- Notable Skills -->
             <div class="mb-5 text-center">
-              <div class="text-subtitle-1 font-weight-bold mb-3">
-                Notable Skills:
-              </div>
+              <div class="text-subtitle-1 font-weight-bold mb-3">Notable Skills:</div>
               <div class="d-flex flex-wrap">
-                <VChip v-for="skill in influencer.tags" :key="skill" class="mr-2 mb-2 skill-chip" variant="elevated"
-                  color="#808080">
+                <VChip
+                  v-for="skill in influencer.tags"
+                  :key="skill"
+                  class="mr-2 mb-2 skill-chip"
+                  variant="elevated"
+                  color="#808080"
+                >
                   {{ skill.tag }}
                 </VChip>
               </div>
@@ -310,12 +316,11 @@
 
             <!-- Achievements -->
             <div>
-              <div class="text-subtitle-1 font-weight-bold mb-2">
-                Achievements:
-              </div>
+              <div class="text-subtitle-1 font-weight-bold mb-2">Achievements:</div>
               <ul class="achievement-list">
-                <li>Best Creator of the Year 2024</li>
-                <li>Miss Universe 2005</li>
+                <li v-for="(el, idx) in influencer.achievements" :key="idx">
+                  {{ el.achievement_text }}
+                </li>
               </ul>
             </div>
           </VCol>
@@ -326,9 +331,7 @@
     <!-- Update Log Dialog - Moved outside the capture zone -->
     <VDialog v-model="isShowUpdateLog" max-width="400">
       <VCard>
-        <VCardTitle>
-          Last update data
-        </VCardTitle>
+        <VCardTitle> Last update data </VCardTitle>
         <VDivider />
         <VCardText>
           <VList>
@@ -344,9 +347,7 @@
         </VCardText>
         <VCardActions>
           <VSpacer />
-          <VBtn @click="onShowUpdateLog">
-            Close
-          </VBtn>
+          <VBtn @click="onShowUpdateLog"> Close </VBtn>
         </VCardActions>
       </VCard>
     </VDialog>
@@ -354,15 +355,13 @@
 </template>
 
 <script>
-import ImagePreview from "@/components/ImagePreview.vue"
-import domtoimage from "dom-to-image"
-import VueApexCharts from "vue3-apexcharts"
-import ApexChartMobileComparison from "./ApexChartMobileComparison.vue"
-
-import html2canvas from "html2canvas"
+import ImagePreview from '@/components/ImagePreview.vue'
+import domtoimage from 'dom-to-image'
+import VueApexCharts from 'vue3-apexcharts'
+import ApexChartMobileComparison from './ApexChartMobileComparison.vue'
 
 // Import watermark image
-import kolabWatermark from "@/assets/kolabwm.png"
+import kolabWatermark from '@/assets/kolabwm.png'
 
 export default {
   components: {
@@ -373,29 +372,29 @@ export default {
   data() {
     return {
       // Define your data here
-      backgroundColor: "",
-      fontColor: "#00000",
+      backgroundColor: '',
+      fontColor: '#00000',
       priceLists: [],
       influencerRatings: {},
       influencerReviews: [],
       influencer: {
         id: null,
-        channel_name: "",
+        channel_name: '',
         content_style_id: null,
-        content_style: "",
+        content_style: '',
         is_available: null,
-        first_name: "",
-        last_name: "",
-        nick_name: "",
-        remark: "",
+        first_name: '',
+        last_name: '',
+        nick_name: '',
+        remark: '',
         date_of_birth: null,
         has_agency: null,
         created_date: null,
         created_by: null,
         last_modified_date: null,
-        gender: "",
+        gender: '',
         agency_id: null,
-        photo: "",
+        photo: '',
         province_id: null,
 
         tags: [],
@@ -403,15 +402,15 @@ export default {
       },
       screenshot: null,
       mkdata: {
-        series: [{ name: "Radar Series 2", data: [9, 6, 2, 4, 3, 4, 9] }],
+        series: [{ name: 'Radar Series 2', data: [9, 6, 2, 4, 3, 4, 9] }],
         labels: [
-          "Content Quality",
-          "Consistency",
-          "Presentation/Delivery",
-          "Editing and Production",
-          "Engagement with Audience",
-          "Originality/Creativity",
-          "Growth and Popularity",
+          'Content Quality',
+          'Consistency',
+          'Presentation/Delivery',
+          'Editing and Production',
+          'Engagement with Audience',
+          'Originality/Creativity',
+          'Growth and Popularity',
         ],
       },
 
@@ -442,62 +441,57 @@ export default {
   },
   methods: {
     async fetchUpdateLog() {
-      this.$store.commit("el")
-      this.$axios.get("/utilities/InfluencerDataLastUpdateTime?influencer_id=2").then(res => {
-        this.$store.commit("dl")
+      this.$store.commit('el')
+      this.$axios.get('/utilities/InfluencerDataLastUpdateTime?influencer_id=2').then(res => {
+        this.$store.commit('dl')
         console.log(res)
         this.updateLogs = res.data
       })
     },
     fetchInfluencerInfo() {
-      this.$store.commit("el")
+      this.$store.commit('el')
       this.$axios
-        .post("/influencer/search", { id: this.$route.query.id })
+        .post('/influencer/search', { id: this.$route.query.id })
         .then(response => {
           console.log(response)
           this.influencer = response.data[0]
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
         .catch(error => {
           console.log(error)
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
     },
     fetchPriceOfPost() {
-      this.$store.commit("el")
+      this.$store.commit('el')
       this.$axios
-        .get(
-          "/price_of_posts/by_influencer?influencer_id=" + this.$route.query.id,
-        )
+        .get('/price_of_posts/by_influencer?influencer_id=' + this.$route.query.id)
         .then(response => {
           this.priceLists = response.data
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
         .catch(error => {
           console.error(error)
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
     },
     fetchInfluencerRating() {
-      this.$store.commit("el")
+      this.$store.commit('el')
       this.$axios
-        .get("/influencer-rating/" + this.$route.query.id)
+        .get('/influencer-rating/' + this.$route.query.id)
         .then(response => {
           this.influencerRatings = response.data
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
         .catch(error => {
           console.error(error)
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
     },
     fetchSocialAccount() {
-      this.$store.commit("el")
+      this.$store.commit('el')
       this.$axios
-        .get(
-          "/social-account/by_influencer_id?influencer_id=" +
-          this.$route.query.id,
-        )
+        .get('/social-account/by_influencer_id?influencer_id=' + this.$route.query.id)
         .then(async response => {
           console.log(response)
           this.socialAccountLists = response.data
@@ -506,9 +500,9 @@ export default {
           for (let i = 0; i < this.socialAccountLists.length; i++) {
             await this.$axios
               .get(
-                this.socialAccountLists[i]["api_follower_link"] +
-                "?username=" +
-                this.socialAccountLists[i]["profile_url"],
+                this.socialAccountLists[i]['api_follower_link'] +
+                  '?username=' +
+                  this.socialAccountLists[i]['profile_url']
               )
               .then(res => {
                 this.socialAccountLists[i].followers = res.data.followers
@@ -516,44 +510,40 @@ export default {
               })
           }
 
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
         .catch(error => {
           console.error(error)
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
     },
     fetchInfluencerReviews() {
-      this.$store.commit("el")
+      this.$store.commit('el')
       this.$axios
-        .get(
-          "/influencer_reviews/by_influencer_id?influencer_id=" +
-          this.$route.query.id,
-        )
+        .get('/influencer_reviews/by_influencer_id?influencer_id=' + this.$route.query.id)
         .then(response => {
           this.influencerReviews = response.data
 
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
         .catch(error => {
           console.error(error)
-          this.$store.commit("dl")
+          this.$store.commit('dl')
         })
     },
     formatCurrency(amount) {
       // Use Intl.NumberFormat to format the number
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "LAK",
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'LAK',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }).format(amount)
     },
 
-
     async captureScreenshot() {
       try {
-        this.$store.commit("el")
+        this.$store.commit('el')
 
         // Hide the button before taking the screenshot
         this.showProfileActionBtn = false
@@ -565,13 +555,12 @@ export default {
         const stylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
         const disabledStylesheets = []
 
-
-
         // Apply system fonts directly to the node we're capturing
-        const node = document.getElementById("profile-column")
+        const node = document.getElementById('profile-column')
         const originalFontFamily = node.style.fontFamily
 
-        node.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif"
+        node.style.fontFamily =
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif"
 
         try {
           // Use toBlob instead of toPng for better compatibility
@@ -580,10 +569,11 @@ export default {
             bgcolor: '#ffffff',
             height: node.offsetHeight,
             width: node.offsetWidth,
-            crossorigin: "anonymous",
+            crossorigin: 'anonymous',
             cacheBust: true,
             style: {
-              'font-family': "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
+              'font-family':
+                "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
             },
             filter: node => {
               // Skip problematic nodes if any
@@ -592,16 +582,15 @@ export default {
           })
 
           // Create a link and trigger download
-          const link = document.createElement("a")
+          const link = document.createElement('a')
 
           link.href = dataUrl
-          link.download = this.influencer.channel_name || "influencer-profile.jpg"
+          link.download = this.influencer.channel_name || 'influencer-profile.jpg'
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)
-
         } catch (innerError) {
-          console.error("Inner capture error:", innerError)
+          console.error('Inner capture error:', innerError)
         } finally {
           // Always restore original font
           node.style.fontFamily = originalFontFamily
@@ -615,18 +604,18 @@ export default {
           this.showProfileActionBtn = true
         }
 
-        this.$store.commit("dl")
+        this.$store.commit('dl')
       } catch (error) {
-        console.error("Error capturing the screenshot:", error)
+        console.error('Error capturing the screenshot:', error)
         this.showProfileActionBtn = true
-        this.$store.commit("dl")
-        alert("Failed to process screenshot. Please try again.")
+        this.$store.commit('dl')
+        alert('Failed to process screenshot. Please try again.')
       }
     },
 
     async captureProfileColumn() {
       try {
-        this.$store.commit("el")
+        this.$store.commit('el')
 
         // Hide the button before taking the screenshot
         this.showProfileActionBtn = false
@@ -646,25 +635,27 @@ export default {
         })
 
         // Apply system fonts directly to the node we're capturing
-        const node = document.getElementById("profile-column")
+        const node = document.getElementById('profile-column')
         const originalFontFamily = node.style.fontFamily
 
-        node.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        node.style.fontFamily =
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 
         try {
           const dataUrl = await domtoimage.toJpeg(node, {
             quality: 1,
             bgcolor: this.backgroundColor,
-            crossorigin: "anonymous",
+            crossorigin: 'anonymous',
             cacheBust: true,
-            imagePlaceholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            imagePlaceholder:
+              'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
           })
 
           // Create a link and trigger download
-          const link = document.createElement("a")
+          const link = document.createElement('a')
 
           link.href = dataUrl
-          link.download = this.influencer.channel_name + "-profile.jpg"
+          link.download = this.influencer.channel_name + '-profile.jpg'
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)
@@ -681,23 +672,22 @@ export default {
           this.showProfileActionBtn = true
         }
 
-        this.$store.commit("dl")
+        this.$store.commit('dl')
       } catch (error) {
         // Make sure button is visible even if there's an error
         this.showProfileActionBtn = true
-        console.error("Error capturing the; screenshot:", error)
-        this.$store.commit("dl")
+        console.error('Error capturing the; screenshot:', error)
+        this.$store.commit('dl')
       }
     },
     async captureProfileRow() {
       try {
-        this.$store.commit("el")
+        this.$store.commit('el')
 
         this.showProfileActionBtn = false
 
         // Wait for DOM update
         await this.$nextTick()
-
 
         // Temporarily disable all external stylesheets to avoid CORS issues
         const stylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
@@ -711,30 +701,30 @@ export default {
         })
 
         // Apply system fonts directly to the node we're capturing
-        const node = document.getElementById("influencer-profile-row")
+        const node = document.getElementById('influencer-profile-row')
         const originalFontFamily = node.style.fontFamily
 
-        node.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        node.style.fontFamily =
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 
         try {
           const dataUrl = await domtoimage.toPng(node, {
             quality: 0.95,
-            crossorigin: "anonymous",
+            crossorigin: 'anonymous',
             cacheBust: true,
 
             // bgcolor: this.backgroundColor,
           })
 
           // Create a link and trigger download
-          const link = document.createElement("a")
+          const link = document.createElement('a')
 
           link.href = dataUrl
-          link.download = this.influencer.channel_name + "-profile-row.jpg"
+          link.download = this.influencer.channel_name + '-profile-row.jpg'
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)
           this.showProfileActionBtn = true
-
         } finally {
           // Restore original font
           node.style.fontFamily = originalFontFamily
@@ -743,14 +733,13 @@ export default {
           disabledStylesheets.forEach(stylesheet => {
             stylesheet.disabled = false
             this.showProfileActionBtn = true
-
           })
         }
 
-        this.$store.commit("dl")
+        this.$store.commit('dl')
       } catch (error) {
-        console.error("Error capturing the; screenshot:", error.message)
-        this.$store.commit("dl")
+        console.error('Error capturing the; screenshot:', error.message)
+        this.$store.commit('dl')
       }
     },
     async onShowUpdateLog() {
@@ -758,14 +747,19 @@ export default {
     },
     onEdit(id) {
       this.$router.push({
-        path: "/influencer/influencer-manage-v2",
+        path: '/influencer/influencer-manage-v2',
         query: { id: id },
-      });
+      })
     },
     calculateAge(date_of_birth) {
       if (!date_of_birth) return null
 
-      const birthDate = new Date(date_of_birth)
+      // Convert to YYYY-MM-DD
+      const parts = date_of_birth.split('-')
+      const isoDate = `${parts[2]}-${parts[1]}-${parts[0]}`
+
+      const birthDate = new Date(isoDate)
+      console.log('birthDate', birthDate)
       const today = new Date()
       let age = today.getFullYear() - birthDate.getFullYear()
       const monthDiff = today.getMonth() - birthDate.getMonth()
@@ -777,21 +771,19 @@ export default {
 
       return age
     },
-
-
-
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@use "@core/scss/template/libs/apex-chart.scss";
+@use '@core/scss/template/libs/apex-chart';
 
 // @import url('https://fonts.googleapis.com/css?family=Lato');
 
 // Override fonts to use system fonts instead of Google Fonts
 #profile-column {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 .kolab-header {
@@ -887,11 +879,11 @@ export default {
   &::before {
     position: absolute;
     z-index: 0;
-    background-image: url("@/assets/analyst.jpg");
+    background-image: url('@/assets/analyst.jpg');
     background-position: center;
     background-size: cover;
     block-size: 100%;
-    content: "";
+    content: '';
     inline-size: 100%;
     inset-block-start: 0;
     inset-inline-start: 0;
@@ -899,7 +891,7 @@ export default {
   }
 
   /* Make sure content is above the background image */
-  >* {
+  > * {
     position: relative;
     z-index: 1;
   }
@@ -942,7 +934,7 @@ export default {
   position: absolute;
   background-color: #e0e0e0;
   block-size: 50%;
-  content: "";
+  content: '';
   inline-size: 1px;
   inset-block-start: 25%;
   inset-inline-end: -8px;
@@ -1073,11 +1065,12 @@ export default {
 .watermark-container {
   position: absolute;
   z-index: -1;
+
   /* Changed from 1 to -1 to position behind other elements */
   padding: 80px;
 
   /* Large padding creates more space between repeated images */
-  background-image: url("@/assets/kolabwm.png");
+  background-image: url('@/assets/kolabwm.png');
 
   /* Increase the gap between images by setting a minimum spacing */
   background-origin: padding-box;
@@ -1105,11 +1098,12 @@ export default {
 .watermark-container-profile {
   position: absolute;
   z-index: 1;
+
   /* Changed from 1 to -1 to position behind other elements */
   padding: 80px;
 
   /* Large padding creates more space between repeated images */
-  background-image: url("@/assets/kolabwm.png");
+  background-image: url('@/assets/kolabwm.png');
 
   /* Increase the gap between images by setting a minimum spacing */
   background-origin: padding-box;
